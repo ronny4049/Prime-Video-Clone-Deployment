@@ -78,7 +78,7 @@ curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | 
 pipeline {
     agent any
     tools {
-        jdk 'jdk17'
+        jdk 'jdk-17'
         nodejs 'node16'
     }
     environment {
@@ -92,7 +92,7 @@ pipeline {
         }
         stage ("Git checkout") {
             steps {
-                git branch: 'main', url: 'https://github.com/yeshwanthlm/Prime-Video-Clone-Deployment.git'
+                git branch: 'main', url: 'https://github.com/ronny4049/Prime-Video-Clone-Deployment.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -135,8 +135,8 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker') {
-                        sh "docker tag amazon-prime amonkincloud/amazon-prime:latest "
-                        sh "docker push amonkincloud/amazon-prime:latest "
+                        sh "docker tag amazon-prime ranjandalai4049/amazon-prime:v1 "
+                        sh "docker push ranjandalai4049/amazon-prime:v1 "
                     }
                 }
             }
@@ -145,16 +145,16 @@ pipeline {
             steps {
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview amonkincloud/amazon-prime:latest'
-                       sh 'docker-scout cves amonkincloud/amazon-prime:latest'
-                       sh 'docker-scout recommendations amonkincloud/amazon-prime:latest'
+                       sh 'docker-scout quickview ranjandalai4049/amazon-prime:v1'
+                       sh 'docker-scout cves ranjandalai4049/amazon-prime:v1'
+                       sh 'docker-scout recommendations ranjandalai4049/amazon-prime:v1'
                    }
                 }
             }
         }
         stage ("Deploy to Conatiner") {
             steps {
-                sh 'docker run -d --name amazon-prime -p 3000:3000 amonkincloud/amazon-prime:latest'
+                sh 'docker run -d --name amazon-prime -p 3000:3000 amonkincloud/amazon-prime:v1'
             }
         }
     }
@@ -177,7 +177,7 @@ pipeline {
                 </body>
                 </html>
             """,
-            to: 'provide_your_Email_id_here',
+            to: 'ranjandalai86@gmail.com',
             mimeType: 'text/html',
             attachmentsPattern: 'trivy.txt'
         }
