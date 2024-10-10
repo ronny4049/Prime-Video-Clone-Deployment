@@ -5,7 +5,7 @@ metadata:
   labels:
     app: prime-app
 spec:
-  replicas: 4
+  replicas: 10
   selector:
     matchLabels:
       app: prime-app
